@@ -11,7 +11,6 @@
     "./styles.css": "./dist/index.css",
     "./card": "./src/card.tsx"
   },
-  "license": "MIT",
   "scripts": {
     "build": "tailwindcss -i ./src/styles.css -o ./dist/index.css",
     "lint": "eslint src/",
