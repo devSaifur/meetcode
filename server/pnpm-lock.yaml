@@ -11,9 +11,6 @@ importers:
       '@hono/node-server':
         specifier: ^1.12.2
         version: 1.12.2(hono@4.5.11)
-      hono:
-        specifier: ^4.5.11
-        version: 4.5.11
     devDependencies:
       '@types/node':
         specifier: ^20.11.17

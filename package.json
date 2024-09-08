@@ -3,14 +3,22 @@
   "version": "1.0.0",
   "description": "Pair, code and share your your code effortlessly",
   "scripts": {
-    "dev": "concurrently \"pnpm dev:client\" \"pnpm dev:server\"",
-    "dev:client": "pnpm --dir client dev",
-    "dev:server": "pnpm --dir server dev"
+    "install:server": "pnpm --dir server install",
+    "install:client": "pnpm --dir client install",
+    "dev": "concurrently \"pnpm dev:server\" \"pnpm dev:client\"",
+    "dev:server": "pnpm --dir server dev",
+    "dev:client": "pnpm --dir client dev"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "@ianvs/prettier-plugin-sort-imports": "^4.3.1",
+    "@types/node": "^22.5.4",
+    "concurrently": "^8.2.2",
+    "prettier": "^3.3.3"
+  },
+  "dependencies": {
+    "hono": "^4.5.11"
   }
 }
