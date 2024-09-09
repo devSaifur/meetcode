@@ -1,44 +1,47 @@
-import { useState } from 'react'
-import { Directory, findFileByName, Type } from '@/utils/file-manager'
 import Editor from '@monaco-editor/react'
+import { Tree } from 'react-arborist'
 
-import { useFilesFromSandbox } from '@/hooks/useFilesFromSandbox'
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup
 } from '@/components/ui/resizable'
-import { FileTree } from '@/components/file-tree'
+import { FilesNode } from '@/components/files-node'
 
-const dummyDir: Directory = {
-  id: '1',
-  name: 'loading...',
-  type: Type.DUMMY,
-  parentId: undefined,
-  depth: 0,
-  dirs: [],
-  files: []
-}
+const data = [
+  {
+    id: '1',
+    name: 'public',
+    children: [{ id: 'c1-1', name: 'index.html' }]
+  },
+  {
+    id: '2',
+    name: 'src',
+    children: [
+      { id: 'c2-1', name: 'App.js' },
+      { id: 'c2-2', name: 'index.js' },
+      { id: 'c2-3', name: 'styles.css' }
+    ]
+  },
+  { id: '3', name: 'package.json' },
+  { id: '4', name: 'README.md' }
+]
 
 export default function HomePage() {
-  const [rootDir, setRootDir] = useState(dummyDir)
-  const [selectedFile, setSelectedFile] = useState<File | undefined>(undefined)
-
-  useFilesFromSandbox((root) => {
-    if (!selectedFile) {
-      setSelectedFile(findFileByName(root, 'index.tsx'))
-    }
-    setRootDir(root)
-  })
-
-  const onSelect = (file: File) => setSelectedFile(file)
-
   return (
     <ResizablePanelGroup
       direction="horizontal"
       className="w-full rounded-lg border"
     >
-      <ResizablePanel defaultSize={50}>
+      <ResizablePanel defaultSize={20}>
+        <div className="flex h-full items-center justify-center p-6">
+          <Tree initialData={data} height={1000} indent={24} rowHeight={32}>
+            {FilesNode}
+          </Tree>
+        </div>
+      </ResizablePanel>
+      <ResizableHandle />
+      <ResizablePanel defaultSize={80}>
         <div className="flex h-[90vh]">
           <Editor
             height="auto"
@@ -49,15 +52,11 @@ export default function HomePage() {
         </div>
       </ResizablePanel>
       <ResizableHandle />
-      <ResizablePanel defaultSize={50}>
+      <ResizablePanel defaultSize={25}>
         <ResizablePanelGroup direction="vertical">
           <ResizablePanel defaultSize={25}>
             <div className="flex h-full items-center justify-center p-6">
-              <FileTree
-                rootDir={rootDir}
-                selectedFile={selectedFile}
-                onSelect={onSelect}
-              />
+              <span className="font-semibold">Two</span>
             </div>
           </ResizablePanel>
           <ResizableHandle />
