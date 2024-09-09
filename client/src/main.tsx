@@ -5,8 +5,12 @@ import { App } from './app'
 
 import './styles/index.css'
 
+import { Providers } from '@/components/providers'
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <Providers>
+      <App />
+    </Providers>
   </StrictMode>
 )
