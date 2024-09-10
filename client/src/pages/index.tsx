@@ -7,6 +7,7 @@ import {
   ResizablePanelGroup
 } from '@/components/ui/resizable'
 import { FilesNode } from '@/components/files-node'
+import { Terminal } from '@/components/terminal'
 
 const data = [
   {
@@ -35,13 +36,19 @@ export default function HomePage() {
     >
       <ResizablePanel defaultSize={20}>
         <div className="flex h-full items-center justify-center p-6">
-          <Tree initialData={data} height={1000} indent={24} rowHeight={32}>
+          <Tree
+            initialData={data}
+            height={1000}
+            indent={24}
+            rowHeight={32}
+            openByDefault={false}
+          >
             {FilesNode}
           </Tree>
         </div>
       </ResizablePanel>
       <ResizableHandle />
-      <ResizablePanel defaultSize={80}>
+      <ResizablePanel defaultSize={60}>
         <div className="flex h-[90vh]">
           <Editor
             height="auto"
@@ -52,7 +59,7 @@ export default function HomePage() {
         </div>
       </ResizablePanel>
       <ResizableHandle />
-      <ResizablePanel defaultSize={25}>
+      <ResizablePanel defaultSize={20}>
         <ResizablePanelGroup direction="vertical">
           <ResizablePanel defaultSize={25}>
             <div className="flex h-full items-center justify-center p-6">
@@ -62,7 +69,7 @@ export default function HomePage() {
           <ResizableHandle />
           <ResizablePanel defaultSize={75}>
             <div className="flex h-full items-center justify-center p-6">
-              <span className="font-semibold">Three</span>
+              <Terminal />
             </div>
           </ResizablePanel>
         </ResizablePanelGroup>
