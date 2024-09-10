@@ -1,7 +1,7 @@
 {
   "name": "meetcode",
   "version": "1.0.0",
-  "description": "Pair, code and share your your code effortlessly",
+  "description": "Pair, code and share effortlessly",
   "scripts": {
     "install:server": "pnpm --dir server install",
     "install:client": "pnpm --dir client install",

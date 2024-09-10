@@ -11,10 +11,10 @@ importers:
       '@hono/node-server':
         specifier: ^1.12.2
         version: 1.12.2(hono@4.5.11)
+      '@hono/node-ws':
+        specifier: ^1.0.4
+        version: 1.0.4(@hono/node-server@1.12.2(hono@4.5.11))
     devDependencies:
-      '@types/node':
-        specifier: ^20.11.17
-        version: 20.16.5
       tsx:
         specifier: ^4.7.1
         version: 4.19.0
@@ -171,8 +171,11 @@ packages:
     peerDependencies:
       hono: ^4
 
-  '@types/node@20.16.5':
-    resolution: {integrity: sha512-VwYCweNo3ERajwy0IUlqqcyZ8/A7Zwa9ZP3MnENWcB11AejO+tLy3pu850goUW2FC/IJMdZUfKpX/yxL1gymCA==}
+  '@hono/node-ws@1.0.4':
+    resolution: {integrity: sha512-0j1TMp67U5ym0CIlvPKcKtD0f2ZjaS/EnhOxFLs3bVfV+/4WInBE7hVe2x/7PLEsNIUK9+jVL8lPd28rzTAcZg==}
+    engines: {node: '>=18.14.1'}
+    peerDependencies:
+      '@hono/node-server': ^1.11.1
 
   esbuild@0.23.1:
     resolution: {integrity: sha512-VVNz/9Sa0bs5SELtn3f7qhJCDPCF5oMEl5cO9/SSinpE9hbPVvxbd572HH5AKiP7WD8INO53GgfDDhRjkylHEg==}
@@ -199,8 +202,17 @@ packages:
     engines: {node: '>=18.0.0'}
     hasBin: true
 
-  undici-types@6.19.8:
-    resolution: {integrity: sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==}
+  ws@8.18.0:
+    resolution: {integrity: sha512-8VbfWfHLbbwu3+N6OKsOMpBdT4kXPDDB9cJk2bJ6mh9ucxdlnNvH1e+roYkKmN9Nxw2yjz7VzeO9oOz2zJ04Pw==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
 
 snapshots:
 
@@ -280,9 +292,13 @@ snapshots:
     dependencies:
       hono: 4.5.11
 
-  '@types/node@20.16.5':
+  '@hono/node-ws@1.0.4(@hono/node-server@1.12.2(hono@4.5.11))':
     dependencies:
-      undici-types: 6.19.8
+      '@hono/node-server': 1.12.2(hono@4.5.11)
+      ws: 8.18.0
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
 
   esbuild@0.23.1:
     optionalDependencies:
@@ -329,4 +345,4 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  undici-types@6.19.8: {}
+  ws@8.18.0: {}

@@ -1,24 +1,28 @@
 import { serve } from '@hono/node-server'
+import { createNodeWebSocket } from '@hono/node-ws'
 import { Hono } from 'hono'
-import { cors } from 'hono/cors'
-import { filesRoute } from '../routes/files'
+import { filesRoute } from './routes/files'
+import { wsHandler } from './ws'
 
-const app = new Hono().basePath('/api').route('/files', filesRoute)
+const app = new Hono()
 
-app.get('/', (c) => {
-    return c.text('Hello World!')
-})
+const { upgradeWebSocket, injectWebSocket } = createNodeWebSocket({ app })
 
-app.use(
-    cors({
-        origin: '*'
-    })
-)
+const apiServer = app.basePath('/api').route('/files', filesRoute)
+
+const wsServer = app.get('/ws', upgradeWebSocket(wsHandler))
 
 const port = 3000
 console.log(`Server is running on port ${port}`)
 
-serve({
+const server = serve({
     fetch: app.fetch,
     port
 })
+
+injectWebSocket(server)
+
+export type WebSocketServer = typeof wsServer
+export type ApiServer = typeof apiServer
+
+export default server
