@@ -1,4 +1,5 @@
 import Editor from '@monaco-editor/react'
+import { Loader2 } from 'lucide-react'
 import { Tree } from 'react-arborist'
 
 import {
@@ -55,21 +56,22 @@ export default function HomePage() {
             defaultLanguage="javascript"
             theme="vs-dark"
             defaultValue="// some comment"
+            loading={<Loader2 className="size-10 animate-spin" />}
           />
         </div>
       </ResizablePanel>
       <ResizableHandle />
       <ResizablePanel defaultSize={20}>
         <ResizablePanelGroup direction="vertical">
-          <ResizablePanel defaultSize={25}>
+          <ResizablePanel defaultSize={50}>
             <div className="flex h-full items-center justify-center p-6">
               <span className="font-semibold">Two</span>
             </div>
           </ResizablePanel>
           <ResizableHandle />
-          <ResizablePanel defaultSize={75}>
+          <ResizablePanel defaultSize={50}>
             <div className="flex h-full items-center justify-center p-6">
-              <Terminal />
+              <Terminal theme="dark" />
             </div>
           </ResizablePanel>
         </ResizablePanelGroup>

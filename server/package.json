@@ -8,6 +8,6 @@
     "@hono/node-ws": "^1.0.4"
   },
   "devDependencies": {
-    "tsx": "^4.7.1"
+    "tsx": "^4.19.1"
   }
 }

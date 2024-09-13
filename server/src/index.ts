@@ -1,10 +1,14 @@
 import { serve } from '@hono/node-server'
 import { createNodeWebSocket } from '@hono/node-ws'
 import { Hono } from 'hono'
+import { logger } from 'hono/logger'
+
 import { filesRoute } from './routes/files'
 import { wsHandler } from './ws'
 
 const app = new Hono()
+
+app.use(logger())
 
 const { upgradeWebSocket, injectWebSocket } = createNodeWebSocket({ app })
 

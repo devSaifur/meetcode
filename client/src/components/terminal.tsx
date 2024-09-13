@@ -1,181 +1,84 @@
-import {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-  useState
-} from 'react'
+import { FitAddon } from '@xterm/addon-fit'
+import { WebLinksAddon } from '@xterm/addon-web-links'
+import { Terminal as XTerm } from '@xterm/xterm'
 
 import '@xterm/xterm/css/xterm.css'
 
-import {
-  ITerminalAddon,
-  ITerminalOptions,
-  Terminal as Xterm
-} from '@xterm/xterm'
+import { useEffect, useRef, type ComponentProps } from 'react'
 
-import { cn } from '@/lib/utils'
-
-interface IProps {
-  /**
-   * Class name to add to the terminal container.
-   */
-  className?: string
-
-  /**
-   * Options to initialize the terminal with.
-   */
-  options?: ITerminalOptions
-
-  /**
-   * An array of XTerm addons to load along with the terminal.
-   */
-  addons?: Array<ITerminalAddon>
-
-  /**
-   * Adds an event listener for when a binary event fires. This is used to
-   * enable non UTF-8 conformant binary messages to be sent to the backend.
-   * Currently this is only used for a certain type of mouse reports that
-   * happen to be not UTF-8 compatible.
-   * The event value is a JS string, pass it to the underlying pty as
-   * binary data, e.g. `pty.write(Buffer.from(data, 'binary'))`.
-   */
-  onBinary?(data: string): void
-
-  /**
-   * Adds an event listener for the cursor moves.
-   */
-  onCursorMove?(): void
-
-  /**
-   * Adds an event listener for when a data event fires. This happens for
-   * example when the user types or pastes into the terminal. The event value
-   * is whatever `string` results, in a typical setup, this should be passed
-   * on to the backing pty.
-   */
-  onData?(data: string): void
-
-  /**
-   * Adds an event listener for when a key is pressed. The event value contains the
-   * string that will be sent in the data event as well as the DOM event that
-   * triggered it.
-   */
-  onKey?(event: { key: string; domEvent: KeyboardEvent }): void
-
-  /**
-   * Adds an event listener for when a line feed is added.
-   */
-  onLineFeed?(): void
-
-  /**
-   * Adds an event listener for when a scroll occurs. The event value is the
-   * new position of the viewport.
-   * @returns an `IDisposable` to stop listening.
-   */
-  onScroll?(newPosition: number): void
-
-  /**
-   * Adds an event listener for when a selection change occurs.
-   */
-  onSelectionChange?(): void
-
-  /**
-   * Adds an event listener for when rows are rendered. The event value
-   * contains the start row and end rows of the rendered area (ranges from `0`
-   * to `Terminal.rows - 1`).
-   */
-  onRender?(event: { start: number; end: number }): void
-
-  /**
-   * Adds an event listener for when the terminal is resized. The event value
-   * contains the new size.
-   */
-  onResize?(event: { cols: number; rows: number }): void
-
-  /**
-   * Adds an event listener for when an OSC 0 or OSC 2 title change occurs.
-   * The event value is the new title.
-   */
-  onTitleChange?(newTitle: string): void
-
-  /**
-   * Attaches a custom key event handler which is run before keys are
-   * processed, giving consumers of xterm.js ultimate control as to what keys
-   * should be processed by the terminal and what keys should not.
-   *
-   * @param event The custom KeyboardEvent handler to attach.
-   * This is a function that takes a KeyboardEvent, allowing consumers to stop
-   * propagation and/or prevent the default action. The function returns
-   * whether the event should be processed by xterm.js.
-   */
-  customKeyEventHandler?(event: KeyboardEvent): boolean
+export interface TerminalRef {
+  reloadStyles: () => void
 }
 
-export const Terminal = forwardRef(
-  (props: IProps, ref: React.ForwardedRef<Xterm | undefined>) => {
-    const xtermRef = useRef(null)
+export interface TerminalProps extends ComponentProps<'div'> {
+  theme: 'dark' | 'light'
+  onTerminalReady?: (terminal: XTerm) => void
+  onTerminalResize?: (cols: number, rows: number) => void
+}
 
-    // Declare the Terminal instance using useState
-    const [term, setTerm] = useState<Xterm>()
+export const Terminal = ({
+  onTerminalReady,
+  onTerminalResize,
+  ...props
+}: TerminalProps) => {
+  const divRef = useRef<HTMLDivElement>(null)
+  const terminalRef = useRef<XTerm>()
 
-    useEffect(() => {
-      const terminal = new Xterm(props.options)
-      terminal.open(xtermRef.current!)
+  useEffect(() => {
+    const element = divRef.current!
 
-      // Optional event handlers
-      if (props.onBinary) {
-        terminal.onBinary(props.onBinary)
-      }
-      if (props.onCursorMove) {
-        terminal.onCursorMove(props.onCursorMove)
-      }
-      if (props.onData) {
-        terminal.onData(props.onData)
-      }
-      if (props.onKey) {
-        terminal.onKey(props.onKey)
-      }
-      if (props.onLineFeed) {
-        terminal.onLineFeed(props.onLineFeed)
-      }
-      if (props.onScroll) {
-        terminal.onScroll(props.onScroll)
-      }
-      if (props.onSelectionChange) {
-        terminal.onSelectionChange(props.onSelectionChange)
-      }
-      if (props.onRender) {
-        terminal.onRender(props.onRender)
-      }
-      if (props.onResize) {
-        terminal.onResize(props.onResize)
-      }
-      if (props.onTitleChange) {
-        terminal.onTitleChange(props.onTitleChange)
-      }
-      if (props.customKeyEventHandler) {
-        terminal.attachCustomKeyEventHandler(props.customKeyEventHandler)
-      }
+    const fitAddon = new FitAddon()
+    const webLinksAddon = new WebLinksAddon()
 
-      // Load addons if the prop exists.
-      if (props.addons) {
-        props.addons.forEach((addon) => {
-          terminal.loadAddon(addon)
-        })
+    const terminal = new XTerm({
+      cursorBlink: true,
+      convertEol: true,
+      fontSize: 13,
+      theme: {
+        background: '#1e1e1e',
+        cursor: '#ffffff',
+        foreground: '#ffffff',
+        black: '#000000',
+        blue: '#0000ff'
       }
+    })
 
-      // Set the Terminal instance using useState
-      setTerm(terminal)
+    terminalRef.current = terminal
 
-      return () => {
-        terminal.dispose()
+    terminal.loadAddon(fitAddon)
+    terminal.loadAddon(webLinksAddon)
+    terminal.open(element)
+
+    fitAddon.fit()
+
+    const resizeObserver = new ResizeObserver(() => {
+      fitAddon.fit()
+      onTerminalResize?.(terminal.cols, terminal.rows)
+    })
+
+    resizeObserver.observe(element)
+
+    onTerminalReady?.(terminal)
+
+    terminal.onData((data) => {
+      if (data === '\r') {
+        terminal.write('\n')
+      } else {
+        terminal.write(data)
       }
-    }, [ref, props])
+    })
 
-    useImperativeHandle(ref, () => term)
+    return () => {
+      resizeObserver.disconnect()
+      terminal.dispose()
+    }
+  }, [onTerminalReady, onTerminalResize])
 
-    return (
-      <div ref={xtermRef} className={cn('h-full w-full', props.className)} />
-    )
-  }
-)
+  return (
+    <div
+      {...props}
+      className="w-full overflow-hidden rounded-sm border border-gray-200 px-3"
+      ref={divRef}
+    />
+  )
+}
