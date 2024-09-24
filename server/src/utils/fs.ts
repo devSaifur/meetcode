@@ -9,6 +9,7 @@ export function fetchDirectory(path: string, basePath: string): Promise<File[]> 
     return new Promise((resolve, reject) => {
         fs.readdir(path, { withFileTypes: true }, (err, files) => {
             if (err) {
+                console.error(err)
                 reject(err)
             }
             resolve(
@@ -26,6 +27,7 @@ export function fetchFile(file: string): Promise<string> {
     return new Promise((resolve, reject) => {
         fs.readFile(file, 'utf8', (err, data) => {
             if (err) {
+                console.error(err)
                 reject(err)
             }
             resolve(data)
@@ -37,6 +39,7 @@ export function writeFile(file: string, data: string): Promise<void> {
     return new Promise((resolve, reject) => {
         fs.writeFile(file, data, (err) => {
             if (err) {
+                console.error(err)
                 reject(err)
             }
             resolve()
