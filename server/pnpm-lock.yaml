@@ -10,10 +10,10 @@ importers:
     dependencies:
       '@hono/node-server':
         specifier: ^1.13.1
-        version: 1.13.1(hono@4.6.2)
+        version: 1.13.1(hono@4.6.3)
       '@hono/node-ws':
         specifier: ^1.0.4
-        version: 1.0.4(@hono/node-server@1.13.1(hono@4.6.2))
+        version: 1.0.4(@hono/node-server@1.13.1(hono@4.6.3))
       node-pty:
         specifier: ^1.0.0
         version: 1.0.0
@@ -193,8 +193,8 @@ packages:
   get-tsconfig@4.8.1:
     resolution: {integrity: sha512-k9PN+cFBmaLWtVz29SkUoqU5O0slLuHJXt/2P+tMVFT+phsSGXGkp9t3rQIqdz0e+06EHNGs3oM6ZX1s2zHxRg==}
 
-  hono@4.6.2:
-    resolution: {integrity: sha512-v+39817TgAhetmHUEli8O0uHDmxp2Up3DnhS4oUZXOl5IQ9np9tYtldd42e5zgdLVS0wsOoXQNZ6mx+BGmEvCA==}
+  hono@4.6.3:
+    resolution: {integrity: sha512-0LeEuBNFeSHGqZ9sNVVgZjB1V5fmhkBSB0hZrpqStSMLOWgfLy0dHOvrjbJh0H2khsjet6rbHfWTHY0kpYThKQ==}
     engines: {node: '>=16.9.0'}
 
   nan@2.20.0:
@@ -297,13 +297,13 @@ snapshots:
   '@esbuild/win32-x64@0.23.1':
     optional: true
 
-  '@hono/node-server@1.13.1(hono@4.6.2)':
+  '@hono/node-server@1.13.1(hono@4.6.3)':
     dependencies:
-      hono: 4.6.2
+      hono: 4.6.3
 
-  '@hono/node-ws@1.0.4(@hono/node-server@1.13.1(hono@4.6.2))':
+  '@hono/node-ws@1.0.4(@hono/node-server@1.13.1(hono@4.6.3))':
     dependencies:
-      '@hono/node-server': 1.13.1(hono@4.6.2)
+      '@hono/node-server': 1.13.1(hono@4.6.3)
       ws: 8.18.0
     transitivePeerDependencies:
       - bufferutil
@@ -343,7 +343,7 @@ snapshots:
     dependencies:
       resolve-pkg-maps: 1.0.0
 
-  hono@4.6.2: {}
+  hono@4.6.3: {}
 
   nan@2.20.0: {}
 

@@ -9,7 +9,7 @@
     "dev:server": "pnpm --dir server dev",
     "dev:client": "pnpm --dir client dev",
     "build:client": "pnpm --dir client build",
-    "build:server": "esbuild ./server/src/index.ts --bundle --platform=node --outfile=./server/dist/index.js",
+    "build:server": "esbuild ./server/src/index.ts --bundle --platform=node --external:node-pty --outfile=./server/dist/index.js",
     "start": "node ./server/dist/index.js"
   },
   "keywords": [],
@@ -17,12 +17,12 @@
   "license": "ISC",
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^4.3.1",
-    "@types/node": "^20.16.5",
-    "concurrently": "^8.2.2",
+    "@types/node": "^20.16.9",
+    "concurrently": "^9.0.1",
     "esbuild": "^0.24.0",
     "prettier": "^3.3.3"
   },
   "dependencies": {
-    "hono": "^4.6.2"
+    "hono": "^4.6.3"
   }
 }
