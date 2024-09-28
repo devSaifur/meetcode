@@ -10,6 +10,7 @@
     "dev:client": "pnpm --dir client dev",
     "build:client": "pnpm --dir client build",
     "build:server": "esbuild ./server/src/index.ts --bundle --platform=node --external:node-pty --outfile=./server/dist/index.js",
+    "compile": "tsc server/src/index.ts",
     "start": "node ./server/dist/index.js"
   },
   "keywords": [],
