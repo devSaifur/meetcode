@@ -2,7 +2,6 @@ import type { Context } from 'hono'
 import type { WSEvents } from 'hono/ws'
 
 import { TerminalManager } from '../lib/terminal'
-import { fetchDirectory } from '../utils/fs'
 
 const terminal = new TerminalManager()
 
@@ -15,21 +14,13 @@ export const wsHandler = (c: Context): WSEvents | Promise<WSEvents> => ({
         const sessionId = host?.split('.')[0]
 
         if (sessionId) {
-            ctx.close()
-            terminal.clear(host)
-            return
-        }
-
-        try {
-            const files = await fetchDirectory('/workspace', '')
-            ctx.send(JSON.stringify(files))
-        } catch (err) {
-            console.error(err)
-            ctx.close()
+            ctx.send(`Welcome ${sessionId}`)
         }
     },
     onMessage: (msg, ctx) => {
-        console.log('Received message:', msg)
+        console.log('Received message:', msg.data)
+        ctx.send('Hello from server')
+        ctx.send(`Received message: ${msg.data}`)
     },
     onClose: (evt, ctx) => {
         console.log('WebSocket connection closed')

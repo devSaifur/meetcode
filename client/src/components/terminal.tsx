@@ -1,10 +1,24 @@
 import { FitAddon } from '@xterm/addon-fit'
-import { WebLinksAddon } from '@xterm/addon-web-links'
-import { Terminal as XTerm } from '@xterm/xterm'
+import { Terminal as XTerm, type ITerminalOptions } from '@xterm/xterm'
+
+import { wsClient } from '@/lib/ws'
 
 import '@xterm/xterm/css/xterm.css'
 
 import { useEffect, useRef, type ComponentProps } from 'react'
+
+const TERMINAL_OPTIONS: ITerminalOptions = {
+  cursorBlink: true,
+  convertEol: true,
+  fontSize: 13,
+  theme: {
+    background: '#1e1e1e',
+    cursor: '#ffffff',
+    foreground: '#ffffff',
+    black: '#000000',
+    blue: '#0000ff'
+  }
+}
 
 export interface TerminalRef {
   reloadStyles: () => void
@@ -28,49 +42,30 @@ export const Terminal = ({
     const element = divRef.current!
 
     const fitAddon = new FitAddon()
-    const webLinksAddon = new WebLinksAddon()
-
-    const terminal = new XTerm({
-      cursorBlink: true,
-      convertEol: true,
-      fontSize: 13,
-      theme: {
-        background: '#1e1e1e',
-        cursor: '#ffffff',
-        foreground: '#ffffff',
-        black: '#000000',
-        blue: '#0000ff'
-      }
-    })
+    const terminal = new XTerm(TERMINAL_OPTIONS)
 
     terminalRef.current = terminal
 
     terminal.loadAddon(fitAddon)
-    terminal.loadAddon(webLinksAddon)
     terminal.open(element)
 
     fitAddon.fit()
 
-    const resizeObserver = new ResizeObserver(() => {
-      fitAddon.fit()
-      onTerminalResize?.(terminal.cols, terminal.rows)
-    })
-
-    resizeObserver.observe(element)
-
     onTerminalReady?.(terminal)
 
+    const ws = wsClient.ws.$ws()
+
+    ws.onopen = () => {
+      ws.send('hello')
+    }
+
     terminal.onData((data) => {
-      if (data === '\r') {
-        terminal.write('\n')
-      } else {
-        terminal.write(data)
-      }
+      terminal.write(data)
     })
 
     return () => {
-      resizeObserver.disconnect()
       terminal.dispose()
+      ws.close()
     }
   }, [onTerminalReady, onTerminalResize])
 

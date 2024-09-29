@@ -11,6 +11,9 @@ importers:
       hono:
         specifier: ^4.6.3
         version: 4.6.3
+      remeda:
+        specifier: ^2.14.0
+        version: 2.14.0
     devDependencies:
       '@ianvs/prettier-plugin-sort-imports':
         specifier: ^4.3.1
@@ -421,6 +424,9 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
 
+  remeda@2.14.0:
+    resolution: {integrity: sha512-OSOhr9gGcb3AshMxlu9YnnUtKSkeYhj+AxWiWGfVh3HolYtJP5IF9vC1j1tq15uI7lxCPVd9qnnp43dOvZ840A==}
+
   require-directory@2.1.1:
     resolution: {integrity: sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==}
     engines: {node: '>=0.10.0'}
@@ -470,6 +476,10 @@ packages:
 
   tslib@2.7.0:
     resolution: {integrity: sha512-gLXCKdN1/j47AiHiOkJN69hJmcbGTHI0ImLmbYLHykhgeN0jVGola9yVjFgzCUklsZQMW55o+dW7IXv3RCXDzA==}
+
+  type-fest@4.26.1:
+    resolution: {integrity: sha512-yOGpmOAL7CkKe/91I5O3gPICmJNLJ1G4zFYVAsRHg7M64biSnPtRj0WNQt++bRkjYOqjWXrhnUw1utzmVErAdg==}
+    engines: {node: '>=16'}
 
   undici-types@6.19.8:
     resolution: {integrity: sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==}
@@ -856,6 +866,10 @@ snapshots:
 
   prettier@3.3.3: {}
 
+  remeda@2.14.0:
+    dependencies:
+      type-fest: 4.26.1
+
   require-directory@2.1.1: {}
 
   rxjs@7.8.1:
@@ -895,6 +909,8 @@ snapshots:
   tree-kill@1.2.2: {}
 
   tslib@2.7.0: {}
+
+  type-fest@4.26.1: {}
 
   undici-types@6.19.8: {}
 
